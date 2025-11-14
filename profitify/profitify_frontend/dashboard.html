@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,8 +21,8 @@
             --vibrant-yellow: #FFD166;
             --soft-purple: #C8B6FF;
             --text: #4A5568;
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
             --glass: rgba(255, 255, 255, 0.25);
         }
 
@@ -33,847 +34,567 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            background-color: var(--light);
             color: var(--text);
-            line-height: 1.5;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding: 0;
         }
 
-        /* Header */
-        .header {
-            background: var(--card-bg);
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: var(--glass);
             backdrop-filter: blur(15px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-            padding: 18px 20px;
+            position: fixed;
+            width: 100%;
+            top: 15px;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            border-radius: 20px;
+            margin: 0 20px;
+            width: calc(100% - 40px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .navbar {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            align-items: center;
+            padding: 15px 0;
         }
 
         .logo {
             display: flex;
             align-items: center;
             font-weight: 700;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             color: var(--primary);
-            text-decoration: none;
         }
 
         .logo i {
             margin-right: 10px;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
         }
 
-        .store-info {
+        .nav-links {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            list-style: none;
         }
 
-        .store-name {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: var(--dark);
+        .nav-links li {
+            margin-left: 30px;
         }
 
-        .store-status {
-            font-size: 0.8rem;
-            color: var(--primary);
-            background: rgba(139, 95, 191, 0.1);
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-top: 4px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .icon-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(139, 95, 191, 0.1);
-            color: var(--primary);
-            border: none;
-        }
-
-        .icon-btn:hover {
-            background: var(--primary);
-            color: white;
-            transform: scale(1.05);
-        }
-
-        .notification-badge {
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
             position: relative;
         }
 
-        .notification-count {
+        .nav-links a:after {
+            content: '';
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #EF4444;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            border: 2px solid white;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
         }
 
-        /* Main Content */
-        .main-content {
-            flex-grow: 1;
-            padding: 25px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            max-width: 500px;
-            margin: 0 auto;
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover:after {
             width: 100%;
         }
 
-        /* Welcome Section */
-        .welcome-card {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--soft-purple) 100%);
-            border-radius: 20px;
-            padding: 25px;
-            color: white;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .welcome-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 120px;
-            height: 120px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transform: translate(30px, -30px);
-        }
-
-        .welcome-card h1 {
-            font-size: 1.6rem;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .welcome-card p {
-            opacity: 0.9;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-        }
-
-        .stats-row {
+        .auth-buttons {
             display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            opacity: 0.8;
-        }
-
-        /* Quick Actions */
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .section-title span {
-            font-size: 0.9rem;
-            color: var(--primary);
-            font-weight: 500;
-        }
-
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            margin-bottom: 10px;
         }
 
-        .quick-action {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 18px 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: all 0.3s;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-        }
-
-        .quick-action:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
-        }
-
-        .action-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-            font-size: 1.4rem;
-        }
-
-        .action-1 { background: linear-gradient(135deg, #A8D8EA, #87CEEB); color: #1a5276; }
-        .action-2 { background: linear-gradient(135deg, #FFEAA7, #FFD166); color: #5a4a00; }
-        .action-3 { background: linear-gradient(135deg, #C7F0DB, #4ECDC4); color: #0d5d47; }
-        .action-4 { background: linear-gradient(135deg, #D6BCFA, #8B5FBF); color: white; }
-
-        .action-title {
+        .btn {
+            padding: 10px 20px;
+            border-radius: 50px;
             font-weight: 600;
-            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #7a4ba8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 95, 191, 0.3);
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            padding: 150px 0 50px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
             color: var(--dark);
-            margin-bottom: 4px;
         }
 
-        .action-desc {
-            font-size: 0.75rem;
-            color: var(--text);
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
         }
 
-        /* Dashboard Cards */
+        .back-btn:hover {
+            transform: translateX(-5px);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
         .dashboard-card {
             background: var(--card-bg);
             border-radius: 20px;
-            padding: 25px;
+            padding: 30px;
             box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            display: flex;
-            align-items: center;
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             position: relative;
             overflow: hidden;
+            text-align: center;
+            cursor: pointer;
         }
 
-        .dashboard-card::before {
+        .dashboard-card:before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
+            height: 5px;
             background: linear-gradient(90deg, var(--pastel-purple), var(--sky-blue), var(--vibrant-yellow));
         }
 
         .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px);
         }
 
         .card-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 20px;
-            font-size: 1.6rem;
-            flex-shrink: 0;
+            margin: 0 auto 20px;
+            font-size: 2rem;
         }
 
-        .scan-icon {
-            background: linear-gradient(135deg, var(--pastel-purple), var(--primary));
-            color: white;
-        }
-
-        .finance-icon {
-            background: linear-gradient(135deg, var(--vibrant-yellow), #FFB347);
-            color: #5a4a00;
+        .settings-icon {
+            background: var(--pastel-purple);
+            color: var(--primary);
         }
 
         .ai-icon {
-            background: linear-gradient(135deg, var(--sky-blue), #6ECBF5);
-            color: #1a5276;
+            background: var(--sky-blue);
+            color: #2a7a9c;
         }
 
-        .card-content {
-            flex-grow: 1;
+        .dashboard-icon {
+            background: var(--pastel-yellow);
+            color: #b38f00;
         }
 
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 700;
+        .finance-icon {
+            background: var(--pastel-green);
+            color: #2a9d8f;
+        }
+
+        .scan-icon {
+            background: var(--accent);
+            color: white;
+        }
+
+        .dashboard-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
             color: var(--dark);
-            margin-bottom: 6px;
         }
 
-        .card-subtitle {
+        .dashboard-card p {
             color: var(--text);
-            font-size: 0.9rem;
-            margin-bottom: 8px;
+            margin-bottom: 20px;
         }
 
-        .card-stats {
-            display: flex;
-            gap: 15px;
+        /* Stats Section */
+        .stats-section {
+            margin: 60px 0;
         }
 
-        .card-stat {
-            display: flex;
-            align-items: center;
-            font-size: 0.8rem;
-            color: var(--text);
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
         }
 
-        .card-stat i {
-            margin-right: 5px;
-            font-size: 0.7rem;
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--dark);
+            margin-bottom: 15px;
         }
 
-        .positive { color: #10B981; }
-        .warning { color: #F59E0B; }
-
-        .card-arrow {
-            color: var(--primary);
-            font-size: 1.2rem;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
         }
 
-        /* Bottom Navigation */
-        .bottom-nav {
+        .stat-card {
             background: var(--card-bg);
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 10px;
-            box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.08);
-            z-index: 100;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s;
         }
 
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: var(--text);
-            transition: all 0.3s;
-            padding: 8px 12px;
-            border-radius: 12px;
-            min-width: 60px;
+        .stat-card:hover {
+            transform: translateY(-5px);
         }
 
-        .nav-item.active {
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
             color: var(--primary);
-            background: rgba(139, 95, 191, 0.1);
+            margin-bottom: 10px;
         }
 
-        .nav-item i {
-            font-size: 1.3rem;
-            margin-bottom: 4px;
-        }
-
-        .nav-item span {
-            font-size: 0.7rem;
-            font-weight: 500;
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text);
         }
 
         /* Footer */
-        .footer {
+        footer {
             background: var(--dark);
             color: white;
-            padding: 70px 20px 20px;
-            text-align: center;
-            margin-top: auto;
+            padding: 60px 0 30px;
+            border-radius: 40px 40px 0 0;
+            margin-top: 80px;
         }
 
         .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 500px;
-            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
-        .version {
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-
-        .support-link {
-            color: var(--pastel-blue);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.3s;
-        }
-
-        .support-link:hover {
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
             color: white;
         }
 
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #CBD5E0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #4A5568;
+            color: #CBD5E0;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
         /* Responsive Design */
-        @media (max-width: 480px) {
-            .header {
-                padding: 15px;
+        @media (max-width: 768px) {
+            header {
+                top: 10px;
+                border-radius: 15px;
+                margin: 0 15px;
+                width: calc(100% - 30px);
             }
-            
-            .main-content {
-                padding: 20px 15px 80px;
+
+            .navbar {
+                flex-direction: column;
+                padding: 15px 0;
+            }
+
+            .nav-links {
+                margin: 20px 0;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-links li {
+                margin: 0 10px 10px;
+            }
+
+            .auth-buttons {
+                margin-top: 10px;
+            }
+
+            .dashboard {
+                padding: 130px 0 30px;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
                 gap: 20px;
+                text-align: center;
             }
-            
-            .welcome-card {
-                padding: 20px;
+
+            .dashboard-title {
+                font-size: 2rem;
             }
-            
-            .dashboard-card {
-                padding: 20px;
-            }
-            
-            .card-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.4rem;
-                margin-right: 15px;
-            }
-            
-            .card-title {
-                font-size: 1.2rem;
-            }
-            
-            .quick-actions {
+
+            .dashboard-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .icon-btn {
-                width: 40px;
-                height: 40px;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <div class="header">
-        <a href="index.html" class="logo">
-            <i class="fas fa-chart-line"></i>
-            <span>Profitify</span>
-        </a>
-        <div class="store-info">
-            <div class="store-name">City Mart Store</div>
-            <div class="store-status">Open • 9AM-9PM</div>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Profitify</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="#" class="active">Dashboard</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <a href="index.html" class="btn btn-outline">Back to Home</a>
+                </div>
+            </nav>
         </div>
-        <div class="header-actions">
-            <button class="icon-btn" id="settingsBtn">
-                <i class="fas fa-cog"></i>
-            </button>
-            <button class="icon-btn notification-badge" id="notificationBtn">
-                <i class="fas fa-robot"></i>
-                <div class="notification-count">3</div>
-            </button>
-        </div>
-    </div>
+    </header>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Welcome Card -->
-        <div class="welcome-card">
-            <h1>Good morning, Raj!</h1>
-            <p>Your business is doing great today. Keep it up!</p>
-            <div class="stats-row">
-                <div class="stat-item">
-                    <div class="stat-value">₹12,458</div>
-                    <div class="stat-label">Today's Revenue</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">₹3,842</div>
-                    <div class="stat-label">Profit</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">47</div>
-                    <div class="stat-label">Items Sold</div>
-                </div>
+    <!-- Dashboard Section -->
+    <section class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Dashboard</h1>
             </div>
-        </div>
 
-        <!-- Quick Actions -->
-        <div class="section-title">
-            Quick Actions
-            <span>See all</span>
-        </div>
-        <div class="quick-actions">
-            <div class="quick-action" id="addProduct">
-                <div class="action-icon action-1">
-                    <i class="fas fa-plus"></i>
-                </div>
-                <div class="action-title">Add Product</div>
-                <div class="action-desc">Scan new items</div>
-            </div>
-            <div class="quick-action" id="sellProduct">
-                <div class="action-icon action-2">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <div class="action-title">Sell Product</div>
-                <div class="action-desc">Process sales</div>
-            </div>
-            <div class="quick-action" id="viewInventory">
-                <div class="action-icon action-3">
-                    <i class="fas fa-boxes"></i>
-                </div>
-                <div class="action-title">Inventory</div>
-                <div class="action-desc">Check stock</div>
-            </div>
-            <div class="quick-action" id="createPO">
-                <div class="action-icon action-4">
-                    <i class="fas fa-file-invoice"></i>
-                </div>
-                <div class="action-title">Purchase Order</div>
-                <div class="action-desc">Order supplies</div>
-            </div>
-        </div>
-
-        <!-- Main Dashboard Cards -->
-        <div class="dashboard-card" id="scanCard">
-            <div class="card-icon scan-icon">
-                <i class="fas fa-camera"></i>
-            </div>
-            <div class="card-content">
-                <h2 class="card-title">Scan</h2>
-                <p class="card-subtitle">Add or sell products with barcode scanner</p>
-                <div class="card-stats">
-                    <div class="card-stat positive">
-                        <i class="fas fa-arrow-up"></i> 12 scans today
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-icon settings-icon">
+                        <i class="fas fa-cog"></i>
                     </div>
+                    <h3>Settings</h3>
+                    <p>Configure your account preferences, notifications, and system settings.</p>
+                    <a href="#" class="btn btn-primary">Open Settings</a>
                 </div>
-            </div>
-            <div class="card-arrow">
-                <i class="fas fa-chevron-right"></i>
-            </div>
-        </div>
 
-        <div class="dashboard-card" id="financeCard">
-            <div class="card-icon finance-icon">
-                <i class="fas fa-chart-line"></i>
-            </div>
-            <div class="card-content">
-                <h2 class="card-title">Finance Tracker</h2>
-                <p class="card-subtitle">Real-time profit and revenue analytics</p>
-                <div class="card-stats">
-                    <div class="card-stat positive">
-                        <i class="fas fa-rupee-sign"></i> 31% profit margin
+                <div class="dashboard-card">
+                    <div class="card-icon ai-icon">
+                        <i class="fas fa-robot"></i>
                     </div>
+                    <h3>AI Advisor</h3>
+                    <p>Get personalized recommendations for inventory, pricing, and business growth.</p>
+                    <a href="#" class="btn btn-primary">Consult AI</a>
                 </div>
-            </div>
-            <div class="card-arrow">
-                <i class="fas fa-chevron-right"></i>
-            </div>
-        </div>
 
-        <div class="dashboard-card" id="advisorCard">
-            <div class="card-icon ai-icon">
-                <i class="fas fa-brain"></i>
-            </div>
-            <div class="card-content">
-                <h2 class="card-title">AI Advisor</h2>
-                <p class="card-subtitle">Smart recommendations for your business</p>
-                <div class="card-stats">
-                    <div class="card-stat warning">
-                        <i class="fas fa-exclamation-circle"></i> 3 new alerts
+                <div class="dashboard-card">
+                    <div class="card-icon dashboard-icon">
+                        <i class="fas fa-tachometer-alt"></i>
                     </div>
+                    <h3>Dashboard</h3>
+                    <p>View your business performance metrics and key insights at a glance.</p>
+                    <a href="#" class="btn btn-primary">View Dashboard</a>
                 </div>
-            </div>
-            <div class="card-arrow">
-                <i class="fas fa-chevron-right"></i>
-            </div>
-        </div>
 
-        <!-- Recent Activity -->
-        <div class="section-title">
-            Recent Activity
-            <span>View all</span>
-        </div>
-        <div class="activity-list">
-            <div class="activity-item">
-                <div class="activity-icon">
-                    <i class="fas fa-shopping-cart"></i>
+                <div class="dashboard-card">
+                    <div class="card-icon finance-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Finance Tracker</h3>
+                    <p>Monitor revenue, expenses, and profit margins with detailed analytics.</p>
+                    <a href="#" class="btn btn-primary">Track Finances</a>
                 </div>
-                <div class="activity-content">
-                    <div class="activity-title">Amul Butter sold</div>
-                    <div class="activity-desc">5 units at ₹45 each</div>
-                    <div class="activity-time">10:24 AM</div>
-                </div>
-                <div class="activity-amount positive">
-                    +₹225
-                </div>
-            </div>
-            <div class="activity-item">
-                <div class="activity-icon">
-                    <i class="fas fa-box"></i>
-                </div>
-                <div class="activity-content">
-                    <div class="activity-title">Lays Chips added</div>
-                    <div class="activity-desc">Stock updated to 50 units</div>
-                    <div class="activity-time">09:45 AM</div>
-                </div>
-            </div>
-            <div class="activity-item">
-                <div class="activity-icon">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                <div class="activity-content">
-                    <div class="activity-title">Low stock alert</div>
-                    <div class="activity-desc">Coca-Cola running low</div>
-                    <div class="activity-time">Yesterday</div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <a href="#" class="nav-item active">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </a>
-        <a href="scanner.html" class="nav-item">
-            <i class="fas fa-camera"></i>
-            <span>Scan</span>
-        </a>
-        <a href="finance.html" class="nav-item">
-            <i class="fas fa-chart-pie"></i>
-            <span>Finance</span>
-        </a>
-        <a href="advisor.html" class="nav-item">
-            <i class="fas fa-robot"></i>
-            <span>Advisor</span>
-        </a>
-        <a href="inventory.html" class="nav-item">
-            <i class="fas fa-boxes"></i>
-            <span>Inventory</span>
-        </a>
-    </div>
+                <div class="dashboard-card">
+                    <div class="card-icon scan-icon">
+                        <i class="fas fa-barcode"></i>
+                    </div>
+                    <h3>Scan Page</h3>
+                    <p>Quickly scan barcodes to add or update products in your inventory.</p>
+                    <a href="#" class="btn btn-primary">Start Scanning</a>
+                </div>
+            </div>
+
+            
+        </div>
+    </section>
 
     <!-- Footer -->
-    <div class="footer">
-        <div class="footer-content">
-            <div class="version">Profitify v1.2</div>
-            <a href="#" class="support-link">Help & Support</a>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Profitify</h3>
+                    <p>Making inventory management simple and profitable through AI and smart analytics.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#about">How It Works</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Profitify. All rights reserved.</p>
+            </div>
         </div>
-    </div>
+    </footer>
 
     <script>
-        // Header actions
-        const settingsBtn = document.getElementById('settingsBtn');
-        const notificationBtn = document.getElementById('notificationBtn');
-        
-        // Dashboard cards
-        const scanCard = document.getElementById('scanCard');
-        const financeCard = document.getElementById('financeCard');
-        const advisorCard = document.getElementById('advisorCard');
-        
-        // Quick actions
-        const addProduct = document.getElementById('addProduct');
-        const sellProduct = document.getElementById('sellProduct');
-        const viewInventory = document.getElementById('viewInventory');
-        const createPO = document.getElementById('createPO');
+        // Simple JavaScript for interactive elements
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add animation to dashboard cards on scroll
+            const dashboardCards = document.querySelectorAll('.dashboard-card');
 
-        // Settings button click
-        settingsBtn.addEventListener('click', () => {
-            alert('Opening settings...');
-            // Navigate to settings page
-            // window.location.href = 'settings.html';
-        });
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
 
-        // Notification badge click
-        notificationBtn.addEventListener('click', () => {
-            // Navigate to AI Advisor page
-            window.location.href = 'advisor.html';
-        });
+            dashboardCards.forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
 
-        // Dashboard card clicks
-        scanCard.addEventListener('click', () => {
-            // Navigate to scanner page
-            window.location.href = 'scanner.html';
-        });
-
-        financeCard.addEventListener('click', () => {
-            // Navigate to finance tracker page
-            window.location.href = 'finance.html';
-        });
-
-        advisorCard.addEventListener('click', () => {
-            // Navigate to AI advisor page
-            window.location.href = 'advisor.html';
-        });
-
-        // Quick action clicks
-        addProduct.addEventListener('click', () => {
-            alert('Opening Add Product scanner...');
-            // window.location.href = 'scanner.html?action=add';
-        });
-
-        sellProduct.addEventListener('click', () => {
-            alert('Opening Sell Product scanner...');
-            // window.location.href = 'scanner.html?action=sell';
-        });
-
-        viewInventory.addEventListener('click', () => {
-            alert('Opening Inventory...');
-            // window.location.href = 'inventory.html';
-        });
-
-        createPO.addEventListener('click', () => {
-            alert('Creating new Purchase Order...');
-            // window.location.href = 'purchase-order.html';
-        });
-
-        // Add ripple effect to cards
-        document.querySelectorAll('.dashboard-card, .quick-action').forEach(card => {
-            card.addEventListener('click', function(e) {
-                // Create ripple element
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                this.appendChild(ripple);
-                
-                // Remove ripple after animation
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
+            // Add subtle animation to stats
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach((item, index) => {
+                item.style.transitionDelay = `${index * 0.1}s`;
             });
         });
-
-        // Add ripple styles dynamically
-        const style = document.createElement('style');
-        style.textContent = `
-            .ripple {
-                position: absolute;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.5);
-                transform: scale(0);
-                animation: ripple-animation 0.6s linear;
-            }
-            
-            @keyframes ripple-animation {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-
-            /* Activity List Styles */
-            .activity-list {
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .activity-item {
-                background: var(--card-bg);
-                border-radius: 16px;
-                padding: 18px;
-                display: flex;
-                align-items: center;
-                box-shadow: var(--shadow);
-                border: 1px solid rgba(255, 255, 255, 0.8);
-            }
-
-            .activity-icon {
-                width: 44px;
-                height: 44px;
-                border-radius: 12px;
-                background: rgba(139, 95, 191, 0.1);
-                color: var(--primary);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-right: 15px;
-                font-size: 1.1rem;
-            }
-
-            .activity-content {
-                flex-grow: 1;
-            }
-
-            .activity-title {
-                font-weight: 600;
-                color: var(--dark);
-                font-size: 0.95rem;
-                margin-bottom: 4px;
-            }
-
-            .activity-desc {
-                color: var(--text);
-                font-size: 0.85rem;
-                margin-bottom: 4px;
-            }
-
-            .activity-time {
-                color: var(--text);
-                font-size: 0.75rem;
-                opacity: 0.7;
-            }
-
-            .activity-amount {
-                font-weight: 700;
-                font-size: 1rem;
-            }
-
-            .positive {
-                color: #10B981;
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
+
 </html>
