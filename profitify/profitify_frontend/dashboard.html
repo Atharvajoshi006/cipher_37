@@ -82,7 +82,12 @@
             margin-right: 10px;
             font-size: 1.8rem;
         }
-
+        .logo a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--primary);
+        }
         .nav-links {
             display: flex;
             list-style: none;
@@ -580,8 +585,10 @@
         <div class="container">
             <nav class="navbar">
                 <div class="logo">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Profitify</span>
+                    <a href="index.html">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Profitify</span>
+                    </a>
                 </div>
                 <div class="auth-buttons">
                     <a href="index.html" class="btn btn-outline">Back to Home</a>
@@ -790,7 +797,7 @@
 
             // Sell Product action
             sellProductBtn.addEventListener('click', function () {
-                 window.location.href = 'add-product.html';
+                window.location.href = 'add-product.html';
                 // Add your sell product logic here
                 scanModal.style.display = 'none';
             });
