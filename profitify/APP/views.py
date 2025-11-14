@@ -13,6 +13,15 @@ def landing_page(request):
     # Just shows the simple landing_page.html template
     return render(request, 'APP/landing_page.html')
 
+def login_page(request):
+    # This view just shows the login page.
+    return render(request, 'APP/login.html')
+
+def dashboard(request):
+    # This view just shows the dashboard page.
+    # Later you can add data to it, just like the finance_tracker
+    return render(request, 'APP/dashboard.html')
+
 def finance_tracker(request):
     """
     This page shows 'Today's Profit', 'Revenue vs COGS', and 'Profit Makers'.
@@ -21,16 +30,15 @@ def finance_tracker(request):
     
     # 1. Calculate Today's Profit
     # Get all sales from today
-    sales_today = Sale.objects.filter(sale_date__date=today)
+    sales_today = Sale.objects.filter(sale_timestamp__date=today)
     
     # Calculate total revenue and total cost of goods sold (COGS) for today
-    total_revenue_today = sales_today.aggregate(total=Sum('total_price'))['total'] or 0
+    total_revenue_today = sales_today.aggregate(total=Sum('total_amount'))['total'] or 0
     total_cogs_today = 0
     
     for sale in sales_today:
         for item in sale.items.all():
-            # Add the cost of this specific batch to the COGS
-            total_cogs_today += item.stock_batch.cost_price * item.quantity
+            total_cogs_today += item.cost_at_sale * item.quantity 
             
     todays_profit = total_revenue_today - total_cogs_today
 
@@ -42,11 +50,15 @@ def finance_tracker(request):
     }
 
     # 3. Profit Makers (Top 5 profitable products today)
-    # This is a more complex query, so we'll do a simple version
-    # Get all sale items from today and annotate profit
-    profit_makers_query = SaleItem.objects.filter(sale__sale_date__date=today).annotate(
-        profit_per_item=(F('price_per_unit') - F('stock_batch__cost_price')) * F('quantity')
-    ).values('product__name').annotate(total_profit=Sum('total_profit')).order_by('-total_profit')[:5]
+    # This query finds all sale items from today, calculates their individual profit
+    # (profit_per_item), then groups them by product name,
+    # sums up the profit for each group (naming it total_profit),
+    # and orders them from highest to lowest.
+    
+    # FIXED: Changed Sum('total_profit') to Sum('profit_per_item')
+    profit_makers_query = SaleItem.objects.filter(sale__sale_timestamp__date=today).annotate(
+        profit_per_item=(F('price_at_sale') - F('cost_at_sale')) * F('quantity')
+    ).values('product__product_name').annotate(total_profit=Sum('profit_per_item')).order_by('-total_profit')[:5]
 
     profit_makers = list(profit_makers_query)
     
@@ -79,7 +91,8 @@ def ai_advisor(request):
         total_stock = product.stock_batches.aggregate(total=Sum('current_stock'))['total'] or 0
         if total_stock < product.reorder_level:
             reorder_suggestions.append({
-                'name': product.name,
+                # FIXED: Changed product.name to product.product_name
+                'name': product.product_name, 
                 'current_stock': total_stock,
                 'reorder_level': product.reorder_level
             })
@@ -126,7 +139,7 @@ def scan_product_api(request, barcode):
             data = {
                 'status': 'found',
                 'product_id': product.id,
-                'name': product.name,
+                'name': product.product_name, # FIXED: product.name to product.product_name
                 'description': product.description,
                 'selling_price': product.selling_price,
                 'stock_batch_id': available_stock.id,
@@ -135,7 +148,7 @@ def scan_product_api(request, barcode):
         else:
             data = {
                 'status': 'not_in_stock',
-                'name': product.name,
+                'name': product.product_name, # FIXED: product.name to product.product_name
                 'message': 'This product is out of stock.'
             }
             
@@ -151,10 +164,5 @@ def scan_product_api(request, barcode):
             'message': str(e)
         }
 
-def login_page(request):
-    # This view just shows the login page.
-    return render(request, 'APP/login.html')
-
-    
     # Return the data as a JSON object
     return JsonResponse(data)
