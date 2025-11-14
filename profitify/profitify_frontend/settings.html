@@ -549,6 +549,36 @@
                 padding: 20px;
             }
         }
+        /* Logout Section */
+        
+        .logout-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .logout-btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: transparent;
+            border: 2px solid #F44336;
+            border-radius: 50px;
+            color: #F44336;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .logout-btn:hover {
+            background: #F44336;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
+        }
     </style>
 </head>
 
@@ -591,6 +621,7 @@
         <!-- Settings Layout -->
         <div class="settings-layout">
             <!-- Settings Sidebar -->
+            <!-- Add this to the Settings Sidebar section -->
             <div class="settings-sidebar">
                 <h2 class="sidebar-title">Account</h2>
                 <ul class="sidebar-menu">
@@ -601,6 +632,14 @@
                         <span>Profile Information</span>
                     </li>
                 </ul>
+
+                <!-- Add this logout section at the bottom of the sidebar -->
+                <div class="logout-section">
+                    <button class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
             </div>
 
             <!-- Settings Content -->
@@ -767,6 +806,15 @@
                     this.style.borderColor = '';
                 }, 2000);
             });
+        });
+        // Logout functionality
+        document.querySelector('.logout-btn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real app, this would clear session/token and redirect
+                // For demo, we'll just show an alert and redirect to login
+                alert('You have been logged out successfully');
+                window.location.href = 'login.html';
+            }
         });
     </script>
 </body>
