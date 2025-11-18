@@ -39,8 +39,10 @@
         }
 
         /* Header */
+        /* Add this to fix the header background */
         header {
-            background: var(--glass);
+            background: var(--card-bg);
+            /* Changed from var(--glass) which wasn't defined */
             backdrop-filter: blur(15px);
             position: fixed;
             width: 100%;
@@ -155,6 +157,7 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(139, 95, 191, 0.3);
         }
+
         /* Layout */
         .sell-product {
             padding: 110px 0 60px
@@ -264,6 +267,7 @@
         }
 
         /* Scanner section - improved */
+        /* Scanner section - improved */
         .scanner-section {
             background: var(--card-bg);
             border-radius: 16px;
@@ -271,11 +275,12 @@
             border: 1px solid rgba(255, 255, 255, 0.45);
             box-shadow: var(--shadow);
             margin-bottom: 28px;
-            display: none
+            display: none;
         }
 
         .scanner-section.active {
-            display: block
+            display: block;
+            animation: fadeIn 0.35s ease;
         }
 
         .scanner-inner {
@@ -283,7 +288,7 @@
             gap: 18px;
             align-items: flex-start;
             flex-wrap: wrap;
-            justify-content: center
+            justify-content: center;
         }
 
         #scannerPreview {
@@ -297,7 +302,30 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 8px 18px rgba(0, 0, 0, .12);
-            border: 1px solid rgba(255, 255, 255, .03)
+            border: 1px solid rgba(255, 255, 255, .03);
+            position: relative;
+            /* Added for proper positioning */
+        }
+
+        /* Fix Quagga video and canvas positioning */
+        #scannerPreview video,
+        #scannerPreview canvas {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            border-radius: 12px;
+        }
+
+        /* Quagga drawing buffer canvas */
+        #scannerPreview canvas.drawingBuffer {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
         }
 
         .scanner-controls {
@@ -305,7 +333,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            align-items: flex-start
+            align-items: flex-start;
         }
 
         .scanner-btn {
@@ -315,17 +343,82 @@
             border-radius: 10px;
             cursor: pointer;
             font-weight: 600;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06)
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .scanner-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
 
         .scanner-btn:active {
-            transform: translateY(1px)
+            transform: translateY(0);
         }
 
         .scanner-status {
             font-size: 0.95rem;
             color: var(--text);
-            opacity: .9
+            opacity: .9;
+            margin-top: 10px;
+        }
+
+        /* Scanner active state */
+        .scanner-active #scannerPreview .camera-loading {
+            display: none;
+        }
+
+        /* Add fadeIn animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @media (max-width:820px) {
+            #scannerPreview {
+                width: 100%;
+                height: 220px;
+            }
+
+            .scanner-controls {
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .scanner-btn {
+                flex: 1 1 calc(50% - 8px);
+                text-align: center;
+                min-width: 120px;
+            }
+
+            .scanner-status {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width:480px) {
+            .scanner-controls {
+                flex-direction: column;
+            }
+
+            .scanner-btn {
+                flex: none;
+                width: 100%;
+            }
+
+            #scannerPreview {
+                height: 200px;
+            }
         }
 
         /* Manual form */
@@ -462,33 +555,6 @@
             border-radius: 24px 24px 0 0;
             margin-top: 32px
         }
-
-        @media (max-width:820px) {
-            #scannerPreview {
-                width: 100%;
-                height: 220px
-            }
-
-            .scanner-controls {
-                width: 100%;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center
-            }
-
-            .scanner-btn {
-                flex: 1 1 calc(50% - 8px);
-                text-align: center
-            }
-
-            .mode-selection {
-                flex-direction: column
-            }
-
-            .sell-product {
-                padding-top: 140px
-            }
-        }
     </style>
 
     <!-- Quagga -->
@@ -538,10 +604,11 @@
             </div>
 
             <!-- Scanner Section -->
+            <!-- Scanner Section -->
             <div id="scannerSection" class="scanner-section active" aria-hidden="false">
                 <div class="scanner-inner">
                     <div id="scannerPreview" aria-live="polite" role="region" title="Barcode camera preview">
-                        <div style="text-align:center;opacity:.8">
+                        <div class="camera-loading" style="text-align:center;opacity:.8">
                             <i class="fas fa-camera" style="font-size:28px;margin-bottom:8px"></i>
                             <div>Camera preview will appear here</div>
                         </div>
@@ -644,6 +711,7 @@
     </footer>
 
     <script>
+        // Full page JS: scanner + product list + cart
         // Full page JS: scanner + product list + cart
         document.addEventListener('DOMContentLoaded', function () {
             // Elements
@@ -823,11 +891,11 @@
 
             // Barcode scanning integration (Quagga)
             let scannerRunning = false;
-            function quaggaSupported() { return !!window.Quagga; }
 
             function onDetected(result) {
                 if (!result || !result.codeResult || !result.codeResult.code) return;
                 const code = result.codeResult.code;
+                console.log('Barcode detected:', code);
                 // Dispatch event for page to handle (unified)
                 window.dispatchEvent(new CustomEvent('barcodeScanned', { detail: { code } }));
                 stopQuagga();
@@ -835,9 +903,10 @@
 
             function startQuagga() {
                 if (scannerRunning) return;
-                if (!quaggaSupported()) {
+                if (!window.Quagga) {
                     // fallback simulate quick scan
                     setSmallStatus('Camera unavailable — simulating scan');
+                    setStatus('info', '<i class="fas fa-info-circle"></i><span>Camera not available — simulating scan.</span>');
                     setTimeout(() => {
                         const keys = Object.keys(productDatabase);
                         const rand = keys[Math.floor(Math.random() * keys.length)];
@@ -852,10 +921,29 @@
                             name: "Live",
                             type: "LiveStream",
                             target: previewTarget,
-                            constraints: { width: 640, height: 480, facingMode: "environment" }
+                            constraints: {
+                                width: 640,
+                                height: 480,
+                                facingMode: "environment",
+                                aspectRatio: { min: 1, max: 2 }
+                            },
+                            area: {
+                                top: '0%',
+                                right: '0%',
+                                left: '0%',
+                                bottom: '0%'
+                            }
                         },
-                        decoder: { readers: ["ean_reader", "ean_8_reader", "code_128_reader", "upc_reader", "upc_e_reader"], multiple: false },
-                        locate: true
+                        decoder: {
+                            readers: ["ean_reader", "ean_8_reader", "code_128_reader", "upc_reader", "upc_e_reader"],
+                            multiple: false
+                        },
+                        locator: {
+                            patchSize: 'medium',
+                            halfSample: true
+                        },
+                        locate: true,
+                        frequency: 10
                     }, function (err) {
                         if (err) {
                             console.error("Quagga init error:", err);
@@ -870,6 +958,9 @@
                         stopScannerBtn.style.display = 'inline-block';
                         setSmallStatus('Scanning... point camera at barcode');
                         setStatus('info', '<i class="fas fa-camera"></i><span>Scanning... point camera at barcode</span>');
+
+                        // Add active class for styling
+                        scannerSection.classList.add('scanner-active');
                     });
                 } catch (ex) {
                     console.error('Quagga start exception', ex);
@@ -882,29 +973,66 @@
                     startScannerBtn.style.display = 'inline-block';
                     stopScannerBtn.style.display = 'none';
                     setSmallStatus('Scanner stopped');
+                    scannerSection.classList.remove('scanner-active');
                     return;
                 }
-                try { Quagga.offDetected(onDetected); Quagga.stop(); } catch (e) { }
+
+                try {
+                    Quagga.offDetected(onDetected);
+                    Quagga.stop();
+                } catch (e) {
+                    console.log('Quagga stop error:', e);
+                }
+
                 scannerRunning = false;
                 startScannerBtn.style.display = 'inline-block';
                 stopScannerBtn.style.display = 'none';
                 setSmallStatus('Scanner stopped');
                 setStatus('info', '<i class="fas fa-info-circle"></i><span>Scanner stopped</span>');
-                // remove injected preview nodes if present
-                const injected = previewTarget.querySelector('video, canvas');
-                if (injected) injected.remove();
+                scannerSection.classList.remove('scanner-active');
+
+                // Remove injected preview nodes if present
+                const videos = previewTarget.querySelectorAll('video');
+                const canvases = previewTarget.querySelectorAll('canvas');
+
+                videos.forEach(video => video.remove());
+                canvases.forEach(canvas => canvas.remove());
+
+                // Show the placeholder again
+                const placeholder = document.createElement('div');
+                placeholder.style.textAlign = 'center';
+                placeholder.style.opacity = '0.8';
+                placeholder.innerHTML = `
+                    <i class="fas fa-camera" style="font-size:28px;margin-bottom:8px"></i>
+                    <div>Camera preview will appear here</div>
+                `;
+                previewTarget.appendChild(placeholder);
             }
 
             // Buttons
-            startScannerBtn.addEventListener('click', () => { document.querySelector('.mode-card[data-mode="scan"]').click(); startQuagga(); });
+            startScannerBtn.addEventListener('click', () => {
+                // Ensure we're in scan mode
+                if (!scannerSection.classList.contains('active')) {
+                    document.querySelector('.mode-card[data-mode="scan"]').click();
+                }
+                startQuagga();
+            });
+
             stopScannerBtn.addEventListener('click', stopQuagga);
-            useManualBtn.addEventListener('click', () => { stopQuagga(); document.querySelector('.mode-card[data-mode="manual"]').click(); });
+
+            useManualBtn.addEventListener('click', () => {
+                stopQuagga();
+                document.querySelector('.mode-card[data-mode="manual"]').click();
+            });
 
             // Handle scanned barcode event
             window.addEventListener('barcodeScanned', function (e) {
                 const code = (e && e.detail && (e.detail.code || e.detail)) || '';
+                console.log('Barcode scanned event:', code);
+
                 if (!code) return;
                 const product = productDatabase[code];
+
                 if (product) {
                     addToCart(product);
                     setStatus('success', `<i class="fas fa-check-circle"></i><span>Product "${product.name}" added to cart!</span>`);
@@ -918,13 +1046,15 @@
                 }
             });
 
-            // initialize UI
+            // Initialize the page
             loadProductList();
-            // default: show scanner mode active
+            // Default: show scanner mode active
             document.querySelector('.mode-card[data-mode="scan"]').click();
 
-            // cleanup on unload
-            window.addEventListener('beforeunload', () => { if (scannerRunning) stopQuagga(); });
+            // Cleanup on unload
+            window.addEventListener('beforeunload', () => {
+                if (scannerRunning) stopQuagga();
+            });
         });
     </script>
 </body>
