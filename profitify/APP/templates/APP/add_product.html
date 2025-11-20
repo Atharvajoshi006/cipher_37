@@ -277,7 +277,7 @@
             color: #c62828
         }
 
-        /* Scanner card (styled to match page) */
+        /* Scanner card */
         .scanner-section {
             background: var(--card-bg);
             border-radius: 16px;
@@ -301,7 +301,6 @@
             justify-content: center;
         }
 
-        /* Camera preview container - fixed positioning */
         #scanner-preview {
             width: 460px;
             height: 300px;
@@ -317,7 +316,6 @@
             position: relative;
         }
 
-        /* Ensure Quagga video/canvas fills the container properly */
         #scanner-preview video,
         #scanner-preview canvas {
             position: absolute !important;
@@ -329,16 +327,6 @@
             border-radius: 12px;
         }
 
-        /* Quagga drawing canvas overlay */
-        #scanner-preview canvas.drawingBuffer {
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-        }
-
-        /* Loading state for camera */
         #scanner-preview .camera-loading {
             text-align: center;
             z-index: 1;
@@ -356,7 +344,6 @@
             opacity: .75;
         }
 
-        /* Controls column */
         .scanner-controls {
             min-width: 220px;
             display: flex;
@@ -401,57 +388,6 @@
             color: var(--text);
             opacity: .9;
             margin-top: 10px;
-        }
-
-        /* Scanner active state */
-        .scanner-active #scanner-preview .camera-loading {
-            display: none;
-        }
-
-        /* Mobile responsiveness improvements */
-        @media (max-width: 820px) {
-            .scanner-inner {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            #scanner-preview {
-                width: 100%;
-                height: 220px;
-            }
-
-            .scanner-controls {
-                width: 100%;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .scanner-btn {
-                flex: 1 1 calc(50% - 10px);
-                text-align: center;
-                min-width: 120px;
-            }
-
-            .scanner-status {
-                width: 100%;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .scanner-controls {
-                flex-direction: column;
-            }
-
-            .scanner-btn {
-                flex: none;
-                width: 100%;
-            }
-
-            #scanner-preview {
-                height: 200px;
-            }
         }
 
         /* Manual form */
@@ -534,7 +470,7 @@
             margin-bottom: 20px
         }
 
-        @media (max-width:820px) {
+        @media (max-width: 820px) {
             header {
                 left: 10px;
                 right: 10px
@@ -567,6 +503,20 @@
             }
         }
 
+        @media (max-width: 480px) {
+            .scanner-controls {
+                flex-direction: column
+            }
+
+            .scanner-btn {
+                width: 100%
+            }
+
+            #scanner-preview {
+                height: 200px
+            }
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -580,7 +530,6 @@
         }
     </style>
 
-    <!-- Quagga -->
     <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
 </head>
 
@@ -631,15 +580,13 @@
             <!-- Scanner Section -->
             <div id="scannerSection" class="scanner-section active" aria-hidden="false">
                 <div class="scanner-inner">
-                    <!-- Quagga preview target -->
                     <div id="scanner-preview" aria-live="polite" role="region" title="Barcode camera preview">
                         <div class="camera-loading">
-                            <!-- <i class="fas fa-camera"></i> -->
-                            <!-- <div>Camera preview will appear here</div> -->
+                            <i class="fas fa-camera"></i>
+                            <div>Camera preview will appear here</div>
                         </div>
                     </div>
 
-                    <!-- Controls -->
                     <div class="scanner-controls" aria-controls="scanner-preview">
                         <button id="start-scanner" class="scanner-btn scanner-small" type="button">
                             <i class="fas fa-play"></i> Start Scanner
@@ -658,20 +605,17 @@
             <!-- Manual Form -->
             <div id="manualFormSection" class="manual-form-section">
                 <form id="manualProductForm" novalidate>
-                    <!-- Basic Info -->
                     <div class="form-section">
                         <h2 class="section-title"><i class="fas fa-info-circle"></i> Product Information</h2>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="productName">Product Name *</label>
-                                <input id="productName" class="form-control" type="text"
-                                    placeholder="Enter product name" required>
+                                <input id="productName" class="form-control" type="text" placeholder="Enter product name" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="productBrand">Brand</label>
-                                <input id="productBrand" class="form-control" type="text"
-                                    placeholder="Enter brand name">
+                                <input id="productBrand" class="form-control" type="text" placeholder="Enter brand name">
                             </div>
                         </div>
 
@@ -693,87 +637,72 @@
 
                             <div class="form-group">
                                 <label for="barcodeNumber">Barcode Number (Optional)</label>
-                                <input id="barcodeNumber" class="form-control" type="text"
-                                    placeholder="Enter barcode if available">
+                                <input id="barcodeNumber" class="form-control" type="text" placeholder="Enter barcode if available">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="productDescription">Description</label>
-                            <textarea id="productDescription" class="form-control"
-                                placeholder="Enter product description"></textarea>
+                            <textarea id="productDescription" class="form-control" placeholder="Enter product description"></textarea>
                         </div>
                     </div>
 
-                    <!-- Pricing & Inventory -->
                     <div class="form-section">
                         <h2 class="section-title"><i class="fas fa-tags"></i> Pricing & Inventory</h2>
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="costPrice">Cost Price *</label>
-                                <input id="costPrice" class="form-control" type="number" step="0.01" min="0"
-                                    placeholder="0.00" required>
+                                <input id="costPrice" class="form-control" type="number" step="0.01" min="0" placeholder="0.00" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="sellingPrice">Selling Price *</label>
-                                <input id="sellingPrice" class="form-control" type="number" step="0.01" min="0"
-                                    placeholder="0.00" required>
+                                <input id="sellingPrice" class="form-control" type="number" step="0.01" min="0" placeholder="0.00" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="stockQuantity">Stock Quantity *</label>
-                                <input id="stockQuantity" class="form-control" type="number" min="0" placeholder="0"
-                                    required>
+                                <input id="stockQuantity" class="form-control" type="number" min="0" placeholder="0" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="reorderLevel">Reorder Level</label>
-                                <input id="reorderLevel" class="form-control" type="number" min="0"
-                                    placeholder="Minimum stock level">
-                                <div class="form-hint">Get notified when stock reaches this level</div>
+                                <input id="reorderLevel" class="form-control" type="number" min="0" placeholder="Minimum stock level">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Extra details -->
                     <div class="form-section">
                         <h2 class="section-title"><i class="fas fa-box"></i> Additional Details</h2>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="productWeight">Weight (kg)</label>
-                                <input id="productWeight" class="form-control" type="number" step="0.01" min="0"
-                                    placeholder="0.00">
+                                <input id="productWeight" class="form-control" type="number" step="0.01" min="0" placeholder="0.00">
                             </div>
 
                             <div class="form-group">
                                 <label for="productDimensions">Dimensions (L×W×H cm)</label>
-                                <input id="productDimensions" class="form-control" type="text"
-                                    placeholder="e.g., 10×5×2">
+                                <input id="productDimensions" class="form-control" type="text" placeholder="e.g., 10×5×2">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="productIngredients">Ingredients/Components</label>
-                            <textarea id="productIngredients" class="form-control"
-                                placeholder="List ingredients or components"></textarea>
+                            <textarea id="productIngredients" class="form-control" placeholder="List ingredients or components"></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="supplierInfo">Supplier Information</label>
-                            <input id="supplierInfo" class="form-control" type="text"
-                                placeholder="Supplier name or contact">
+                            <input id="supplierInfo" class="form-control" type="text" placeholder="Supplier name or contact">
                         </div>
                     </div>
 
                     <div class="form-actions">
-                        <button id="switchToScanBtn" type="button" class="scanner-btn scanner-small"><i
-                                class="fas fa-barcode"></i> Switch to Scan</button>
-                        <button type="submit" class="scanner-btn" style="background:var(--primary);color:#fff"><i
-                                class="fas fa-save"></i> Add Product</button>
+                        <button id="switchToScanBtn" type="button" class="scanner-btn scanner-small"><i class="fas fa-barcode"></i> Switch to Scan</button>
+                        <button type="submit" class="scanner-btn" style="background:var(--primary);color:#fff"><i class="fas fa-save"></i> Add Product</button>
                     </div>
                 </form>
             </div>
@@ -820,7 +749,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Elements
             const modeCards = document.querySelectorAll('.mode-card');
             const scannerSection = document.getElementById('scannerSection');
             const previewBox = document.getElementById('scanner-preview');
@@ -829,267 +757,133 @@
             const manualToggle = document.getElementById('manual-toggle');
             const scannerStatusText = document.getElementById('scanner-status');
             const scanStatus = document.getElementById('scanStatus');
-
             const manualFormSection = document.getElementById('manualFormSection');
             const manualForm = document.getElementById('manualProductForm');
             const switchToScanBtn = document.getElementById('switchToScanBtn');
-
             const barcodeInput = document.getElementById('barcodeNumber');
 
-            // Open Food Facts API Integration - Fixed data parsing
+            // Enhanced API integration with multiple sources
             const productApis = {
-                // Primary: Open Food Facts
+                // Open Food Facts - for food/consumer products
                 openFoodFacts: async (barcode) => {
                     try {
-                        setStatus('info', '<i class="fas fa-spinner fa-spin"></i><span>Searching Open Food Facts database...</span>');
-
                         const apiUrl = `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`;
-
                         const response = await fetch(apiUrl);
                         const data = await response.json();
 
                         if (data.status === 1 && data.product) {
                             const product = data.product;
-
-                            // Get the most common fields
-                            const name = product.product_name || product.product_name_en || '';
-                            const brand = product.brands || product.brand_owner || '';
-                            const category = product.categories || '';
-
                             return {
-                                name: name,
-                                brand: brand,
-                                category: category,
-                                description: `Product from ${brand}`,
+                                name: product.product_name || product.product_name_en || 'Product',
+                                brand: product.brands || '',
+                                category: product.categories || '',
+                                description: product.ingredients_text || `Product from ${product.brands || 'Unknown Brand'}`,
                                 weight: null,
-                                dimensions: '',
-                                ingredients: product.ingredients_text || '',
                                 success: true,
                                 source: 'Open Food Facts'
                             };
                         }
-                        return { success: false, error: 'Product not found' };
+                        return null;
                     } catch (error) {
-                        return { success: false, error: 'Network error' };
+                        return null;
                     }
                 },
 
-                // Extract the best available product name
-                extractBestName: function (product) {
-                    // Priority order for product names
-                    if (product.product_name) return product.product_name;
-                    if (product.product_name_en) return product.product_name_en;
-                    if (product.product_name_fr) return product.product_name_fr;
-                    if (product.product_name_de) return product.product_name_de;
-                    if (product.product_name_es) return product.product_name_es;
+                // EAN database API - works for most products
+                eanSearch: async (barcode) => {
+                    try {
+                        const apiUrl = `https://api.ean-search.org/api?format=json&barcode=${barcode}&key=default`;
+                        const response = await fetch(apiUrl);
+                        const data = await response.json();
 
-                    // Check for any language variant
-                    for (const key in product) {
-                        if (key.startsWith('product_name_') && product[key]) {
-                            return product[key];
+                        if (data.product) {
+                            return {
+                                name: data.product.title || data.product.name || 'Product',
+                                brand: data.product.brand || '',
+                                category: 'other',
+                                description: data.product.description || data.product.title || 'Scanned product',
+                                weight: null,
+                                success: true,
+                                source: 'EAN Database'
+                            };
                         }
+                        return null;
+                    } catch (error) {
+                        return null;
                     }
-
-                    return product.generic_name || product.abbreviated_product_name || '';
                 },
 
-                // Extract the best available brand
-                extractBestBrand: function (product) {
-                    if (product.brands) return product.brands;
-                    if (product.brand_owner) return product.brand_owner;
-                    if (product.manufacturer) return product.manufacturer;
+                // Barcode Lookup API
+                barcodeLookup: async (barcode) => {
+                    try {
+                        const apiUrl = `https://api.barcodepanda.com/v1/search?q=${barcode}`;
+                        const response = await fetch(apiUrl);
+                        if (!response.ok) return null;
+                        const data = await response.json();
 
-                    return '';
-                },
-
-                // Extract the best available category
-                extractBestCategory: function (product) {
-                    if (product.categories) return product.categories;
-                    if (product.categories_tags && product.categories_tags.length > 0) {
-                        return product.categories_tags[0].replace('en:', '');
-                    }
-                    return '';
-                },
-
-                // Generate intelligent description from product data
-                generateDescription: function (product) {
-                    const parts = [];
-
-                    const brand = this.extractBestBrand(product);
-                    if (brand) parts.push(`Brand: ${brand}`);
-
-                    if (product.quantity) parts.push(`Size: ${product.quantity}`);
-                    if (product.packaging) parts.push(`Packaging: ${product.packaging}`);
-                    if (product.countries) parts.push(`Countries: ${product.countries}`);
-
-                    // Add nutrition info if available
-                    if (product.nutriscore_grade) {
-                        parts.push(`Nutri-Score: ${product.nutriscore_grade.toUpperCase()}`);
-                    }
-                    if (product.ecoscore_score) {
-                        parts.push(`Eco-Score: ${product.ecoscore_score}/100`);
-                    }
-
-                    // Add generic name if available
-                    if (product.generic_name) {
-                        parts.push(`Type: ${product.generic_name}`);
-                    }
-
-                    return parts.length > 0 ? parts.join(' • ') : 'Product information from Open Food Facts';
-                },
-
-                // Extract weight from quantity field
-                extractWeight: function (quantity) {
-                    if (!quantity) return null;
-
-                    // Common weight patterns
-                    const weightPatterns = [
-                        /(\d+(?:\.\d+)?)\s*kg/i,
-                        /(\d+(?:\.\d+)?)\s*k\s*g/i,
-                        /(\d+(?:\.\d+)?)\s*g/i,
-                        /(\d+(?:\.\d+)?)\s*grams/i,
-                        /(\d+(?:\.\d+)?)\s*ml/i,
-                        /(\d+(?:\.\d+)?)\s*l/i,
-                        /(\d+(?:\.\d+)?)\s*liters/i
-                    ];
-
-                    for (const pattern of weightPatterns) {
-                        const match = quantity.match(pattern);
-                        if (match) {
-                            let weight = parseFloat(match[1]);
-
-                            // Convert to kg if needed
-                            if (pattern.toString().includes('g') && !pattern.toString().includes('kg')) {
-                                weight = weight / 1000; // Convert grams to kg
-                            } else if (pattern.toString().includes('ml')) {
-                                weight = weight / 1000; // Convert ml to liters (approximate as kg)
-                            }
-
-                            return parseFloat(weight.toFixed(3));
+                        if (data.items && data.items.length > 0) {
+                            const item = data.items[0];
+                            return {
+                                name: item.name || 'Product',
+                                brand: item.brand || '',
+                                category: 'other',
+                                description: item.description || item.name,
+                                weight: null,
+                                success: true,
+                                source: 'Barcode Database'
+                            };
                         }
+                        return null;
+                    } catch (error) {
+                        return null;
                     }
-
-                    return null;
                 },
 
-                // Fallback: Smart product data generator based on barcode patterns
-                smartFallback: async function (barcode) {
-                    await new Promise(resolve => setTimeout(resolve, 800));
-
-                    const cleanBarcode = barcode.replace(/\D/g, '');
-                    const barcodeLength = cleanBarcode.length;
-
-                    // Determine product type based on barcode patterns
-                    const productType = this.inferProductType(cleanBarcode);
-
+                // Smart fallback for any barcode
+                smartFallback: (barcode) => {
+                    const categories = ['Electronics', 'Food', 'Clothing', 'Home', 'Beauty', 'Books', 'Sports', 'Other'];
+                    const types = ['Premium', 'Standard', 'Value', 'Essential', 'Deluxe'];
+                    
+                    const categoryIdx = parseInt(barcode.charAt(0)) % categories.length;
+                    const typeIdx = parseInt(barcode.charAt(1)) % types.length;
+                    
                     return {
-                        name: `${productType.name} ${cleanBarcode.substring(cleanBarcode.length - 4)}`,
-                        brand: this.inferBrand(cleanBarcode),
-                        category: productType.category,
-                        description: `Generic ${productType.category} product. Barcode: ${barcode}`,
-                        weight: productType.typicalWeight,
-                        dimensions: productType.typicalDimensions,
-                        ingredients: '',
+                        name: `${types[typeIdx]} ${categories[categoryIdx]} Product`,
+                        brand: 'Generic Brand',
+                        category: categories[categoryIdx].toLowerCase(),
+                        description: `Barcode: ${barcode} - Product details will be filled in based on the category`,
+                        weight: null,
                         success: true,
-                        source: 'Smart Inference'
+                        source: 'Smart Detection'
                     };
-                },
-
-                // Infer product type from barcode patterns
-                inferProductType: function (barcode) {
-                    // GS1 prefix patterns (simplified)
-                    const patterns = {
-                        // Food items often start with 0-1 (UPC/EAN)
-                        '0': { category: 'food', name: 'Food Product', typicalWeight: 0.5, typicalDimensions: '15×10×5 cm' },
-                        '1': { category: 'food', name: 'Grocery Item', typicalWeight: 0.4, typicalDimensions: '12×8×4 cm' },
-                        // Books start with 978-979
-                        '978': { category: 'books', name: 'Book', typicalWeight: 0.3, typicalDimensions: '21×15×2 cm' },
-                        '979': { category: 'books', name: 'Publication', typicalWeight: 0.25, typicalDimensions: '20×14×1 cm' },
-                        // General merchandise
-                        '2': { category: 'general', name: 'Consumer Product', typicalWeight: 0.2, typicalDimensions: '10×5×3 cm' },
-                        '3': { category: 'health', name: 'Health Product', typicalWeight: 0.15, typicalDimensions: '8×4×2 cm' },
-                        '4': { category: 'food', name: 'Food Item', typicalWeight: 0.3, typicalDimensions: '12×8×4 cm' },
-                        '5': { category: 'food', name: 'Coupon', typicalWeight: 0.01, typicalDimensions: '8×4×0.1 cm' },
-                        '6': { category: 'general', name: 'Product', typicalWeight: 0.25, typicalDimensions: '10×6×3 cm' },
-                        '7': { category: 'general', name: 'Item', typicalWeight: 0.2, typicalDimensions: '9×5×2 cm' },
-                        '8': { category: 'general', name: 'Goods', typicalWeight: 0.3, typicalDimensions: '11×7×4 cm' },
-                        '9': { category: 'general', name: 'Merchandise', typicalWeight: 0.35, typicalDimensions: '13×9×5 cm' }
-                    };
-
-                    // Check for specific patterns first
-                    for (const [prefix, info] of Object.entries(patterns)) {
-                        if (barcode.startsWith(prefix)) {
-                            return info;
-                        }
-                    }
-
-                    // Default based on length
-                    const defaultTypes = {
-                        8: { category: 'small goods', name: 'Small Item', typicalWeight: 0.1, typicalDimensions: '6×4×2 cm' },
-                        12: { category: 'retail', name: 'Retail Product', typicalWeight: 0.3, typicalDimensions: '12×8×4 cm' },
-                        13: { category: 'standard', name: 'Standard Product', typicalWeight: 0.4, typicalDimensions: '15×10×5 cm' },
-                        14: { category: 'bulk', name: 'Bulk Product', typicalWeight: 1.5, typicalDimensions: '25×15×8 cm' }
-                    };
-
-                    return defaultTypes[barcode.length] || {
-                        category: 'other',
-                        name: 'Product',
-                        typicalWeight: 0.5,
-                        typicalDimensions: '10×10×5 cm'
-                    };
-                },
-
-                // Infer brand from barcode patterns (mock)
-                inferBrand: function (barcode) {
-                    const brandPrefixes = {
-                        '001': 'Coca-Cola',
-                        '002': 'Pepsi',
-                        '003': 'Nestle',
-                        '004': 'Unilever',
-                        '005': 'Procter & Gamble',
-                        '006': 'Kraft',
-                        '007': 'General Mills',
-                        '008': 'Kelloggs',
-                        '009': 'Mars',
-                        '010': 'Mondelez'
-                    };
-
-                    for (const [prefix, brand] of Object.entries(brandPrefixes)) {
-                        if (barcode.startsWith(prefix)) {
-                            return brand;
-                        }
-                    }
-
-                    return 'Generic Brand';
                 }
             };
 
-            // Fetch product info with Open Food Facts as primary source
+            // Fetch product with multiple API fallbacks
             async function fetchProductInfo(barcode) {
-                try {
-                    // Try Open Food Facts first
-                    let productData = await productApis.openFoodFacts(barcode);
+                setStatus('info', `<i class="fas fa-spinner fa-spin"></i><span>Looking up product: ${barcode}...</span>`);
 
-                    if (!productData.success) {
-                        // Fallback to smart inference
-                        setStatus('info', '<i class="fas fa-spinner fa-spin"></i><span>Using smart product inference...</span>');
-                        productData = await productApis.smartFallback(barcode);
-                    }
-
-                    if (productData.success) {
-                        setStatus('success', `<i class="fas fa-check-circle"></i><span>Product info loaded from ${productData.source}!</span>`);
-                        return productData;
-                    } else {
-                        setStatus('error', `<i class="fas fa-exclamation-triangle"></i><span>${productData.error}</span>`);
-                        return null;
-                    }
-                } catch (error) {
-                    setStatus('error', `<i class="fas fa-exclamation-triangle"></i><span>Error fetching product info: ${error.message}</span>`);
-                    return null;
+                // Try multiple APIs in sequence
+                let productData = await productApis.openFoodFacts(barcode);
+                if (!productData) {
+                    productData = await productApis.eanSearch(barcode);
                 }
+                if (!productData) {
+                    productData = await productApis.barcodeLookup(barcode);
+                }
+                if (!productData) {
+                    productData = productApis.smartFallback(barcode);
+                }
+
+                if (productData && productData.success) {
+                    setStatus('success', `<i class="fas fa-check-circle"></i><span>Product found via ${productData.source}!</span>`);
+                    return productData;
+                }
+
+                setStatus('error', `<i class="fas fa-exclamation-triangle"></i><span>Using smart detection...</span>`);
+                return productApis.smartFallback(barcode);
             }
 
-            // Helpers
             function setStatus(type, html) {
                 if (!scanStatus) return;
                 scanStatus.className = 'status-message ' + (type || 'info');
@@ -1112,142 +906,30 @@
                 if (scannerSection) scannerSection.classList.toggle('active', !show);
             }
 
-            // Mode card clicks
-            modeCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    modeCards.forEach(c => c.classList.remove('active'));
-                    card.classList.add('active');
-                    const mode = card.getAttribute('data-mode');
-                    if (mode === 'scan') {
-                        showScanner(true);
-                        setStatus('info', '<i class="fas fa-info-circle"></i><span>Ready to scan. Click Start Scanner.</span>');
-                    }
-                    else {
-                        showManual(true);
-                        setStatus('info', '<i class="fas fa-edit"></i><span>Enter product information manually below.</span>');
-                    }
-                });
-            });
-
-            // Populate manual form with product data
-            async function populateManualFormWithProductData(barcode) {
-                if (!barcode) return;
-
-                // Set barcode first
-                if (barcodeInput) barcodeInput.value = barcode;
-
-                // Fetch product info
-                const productData = await fetchProductInfo(barcode);
-
-                if (productData) {
-                    // Populate form fields
-                    document.getElementById('productName').value = productData.name || '';
-                    document.getElementById('productBrand').value = productData.brand || '';
-
-                    // Map category properly
-                    const mappedCategory = mapCategory(productData.category);
-                    document.getElementById('productCategory').value = mappedCategory;
-
-                    document.getElementById('productDescription').value = productData.description || '';
-                    document.getElementById('productWeight').value = productData.weight != null ? productData.weight : '';
-                    document.getElementById('productDimensions').value = productData.dimensions || '';
-                    document.getElementById('productIngredients').value = productData.ingredients || '';
-                    document.getElementById('supplierInfo').value = productData.stores || '';
-
-                    // Set default pricing based on category
-                    setDefaultPricing(mappedCategory);
-
-                    console.log('Fetched product data:', productData);
-                } else {
-                    // If no API data, set minimal defaults
-                    setDefaultPricing('other');
-                    document.getElementById('stockQuantity').value = Math.floor(Math.random() * 50) + 10;
-                }
-            }
-
-            // Map Open Food Facts categories to your category options
+            // Map categories
             function mapCategory(apiCategory) {
                 if (!apiCategory) return 'other';
-
-                const categoryMap = {
-                    // Food categories
-                    'beverages': 'food',
-                    'dairies': 'food',
-                    'snacks': 'food',
-                    'fruits': 'food',
-                    'vegetables': 'food',
-                    'meats': 'food',
-                    'breads': 'food',
-                    'cereals': 'food',
-                    'spreads': 'food',
-                    'condiments': 'food',
-                    'drinks': 'food',
-                    'sweets': 'food',
-
-                    // Electronics
-                    'electronics': 'electronics',
-                    'computers': 'electronics',
-                    'phones': 'electronics',
-                    'appliances': 'electronics',
-
-                    // Home & Garden
-                    'cleaning-products': 'home',
-                    'gardening': 'home',
-                    'home-appliances': 'home',
-                    'kitchen': 'home',
-
-                    // Health & Beauty
-                    'cosmetics': 'beauty',
-                    'personal-care': 'beauty',
-                    'health': 'beauty',
-                    'beauty': 'beauty',
-
-                    // Sports
-                    'sports': 'sports',
-                    'fitness': 'sports',
-                    'outdoors': 'sports',
-
-                    // Books
-                    'books': 'books',
-                    'magazines': 'books',
-                    'media': 'books',
-
-                    // Clothing
-                    'clothing': 'clothing',
-                    'apparel': 'clothing',
-                    'shoes': 'clothing'
-                };
-
                 const lowerCategory = apiCategory.toLowerCase();
 
-                // Check for direct matches
-                for (const [key, value] of Object.entries(categoryMap)) {
-                    if (lowerCategory.includes(key)) {
-                        return value;
+                const categoryKeywords = {
+                    'electronics': ['electron', 'computer', 'phone', 'tech', 'appliance'],
+                    'clothing': ['cloth', 'apparel', 'wear', 'shirt', 'pant', 'shoe', 'dress'],
+                    'food': ['food', 'beverage', 'drink', 'grocery', 'snack', 'eat'],
+                    'home': ['home', 'garden', 'clean', 'kitchen', 'furniture'],
+                    'beauty': ['beauty', 'cosmetic', 'personal', 'care', 'health'],
+                    'books': ['book', 'magazine', 'media', 'publish'],
+                    'sports': ['sport', 'fitness', 'outdoor', 'game']
+                };
+
+                for (const [category, keywords] of Object.entries(categoryKeywords)) {
+                    if (keywords.some(kw => lowerCategory.includes(kw))) {
+                        return category;
                     }
                 }
-
-                // Check for keyword matches
-                if (lowerCategory.includes('food') || lowerCategory.includes('beverage') || lowerCategory.includes('grocery') || lowerCategory.includes('snack')) {
-                    return 'food';
-                } else if (lowerCategory.includes('electronic') || lowerCategory.includes('computer') || lowerCategory.includes('phone') || lowerCategory.includes('tech')) {
-                    return 'electronics';
-                } else if (lowerCategory.includes('home') || lowerCategory.includes('garden') || lowerCategory.includes('cleaning') || lowerCategory.includes('kitchen')) {
-                    return 'home';
-                } else if (lowerCategory.includes('beauty') || lowerCategory.includes('cosmetic') || lowerCategory.includes('personal') || lowerCategory.includes('health')) {
-                    return 'beauty';
-                } else if (lowerCategory.includes('sport') || lowerCategory.includes('fitness') || lowerCategory.includes('outdoor')) {
-                    return 'sports';
-                } else if (lowerCategory.includes('book') || lowerCategory.includes('magazine') || lowerCategory.includes('media')) {
-                    return 'books';
-                } else if (lowerCategory.includes('cloth') || lowerCategory.includes('apparel') || lowerCategory.includes('wear')) {
-                    return 'clothing';
-                }
-
                 return 'other';
             }
 
-            // Set default pricing based on category
+            // Set default pricing
             function setDefaultPricing(category) {
                 const priceMap = {
                     'electronics': { cost: 45.00, selling: 89.99 },
@@ -1266,39 +948,69 @@
                 document.getElementById('stockQuantity').value = Math.floor(Math.random() * 50) + 10;
             }
 
+            // Populate form with product data
+            async function populateManualFormWithProductData(barcode) {
+                if (!barcode) return;
+
+                if (barcodeInput) barcodeInput.value = barcode;
+
+                const productData = await fetchProductInfo(barcode);
+
+                if (productData) {
+                    document.getElementById('productName').value = productData.name || '';
+                    document.getElementById('productBrand').value = productData.brand || '';
+
+                    const mappedCategory = mapCategory(productData.category);
+                    document.getElementById('productCategory').value = mappedCategory;
+
+                    document.getElementById('productDescription').value = productData.description || '';
+                    document.getElementById('productWeight').value = productData.weight != null ? productData.weight : '';
+                    document.getElementById('productDimensions').value = productData.dimensions || '';
+                    document.getElementById('productIngredients').value = productData.ingredients || '';
+                    document.getElementById('supplierInfo').value = productData.supplier || '';
+
+                    setDefaultPricing(mappedCategory);
+                    console.log('Fetched product data:', productData);
+                }
+            }
+
             function switchToManualMode() {
                 const manualCard = document.querySelector('.mode-card[data-mode="manual"]');
                 if (manualCard) manualCard.click();
-                else {
-                    showManual(true);
-                    setStatus('info', '<i class="fas fa-edit"></i><span>Enter product information manually below.</span>');
-                }
             }
 
             function switchToScanMode() {
                 const scanCard = document.querySelector('.mode-card[data-mode="scan"]');
                 if (scanCard) scanCard.click();
-                else {
-                    showScanner(true);
-                    setStatus('info', '<i class="fas fa-info-circle"></i><span>Ready to scan.</span>');
-                }
             }
 
-            // Listen for barcodeScanned event
+            // Mode card clicks
+            modeCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    modeCards.forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    const mode = card.getAttribute('data-mode');
+                    if (mode === 'scan') {
+                        showScanner(true);
+                        setStatus('info', '<i class="fas fa-info-circle"></i><span>Ready to scan. Click Start Scanner.</span>');
+                    } else {
+                        showManual(true);
+                        setStatus('info', '<i class="fas fa-edit"></i><span>Enter product information manually below.</span>');
+                    }
+                });
+            });
+
+            // Barcode scanned event listener
             window.addEventListener('barcodeScanned', async (e) => {
-                const code = (e && e.detail && (e.detail.code || e.detail)) || '';
+                const code = (e && e.detail && e.detail.code) || '';
                 if (!code) return;
 
                 console.log('Barcode scanned:', code);
-
-                // Populate form with product data
                 await populateManualFormWithProductData(code);
-
-                // Switch to manual mode to show the populated form
                 switchToManualMode();
             });
 
-            // Quagga integration
+            // Quagga scanner integration
             let scannerRunning = false;
 
             function onDetected(result) {
@@ -1306,29 +1018,28 @@
                 const code = result.codeResult.code;
                 console.log('Barcode detected:', code);
 
-                const ev = new CustomEvent('barcodeScanned', { detail: { code } });
-                window.dispatchEvent(ev);
+                window.dispatchEvent(new CustomEvent('barcodeScanned', { detail: { code } }));
                 stopScanner();
             }
 
             function startScanner() {
                 if (scannerRunning) return;
+
                 if (!window.Quagga) {
-                    // fallback simulate
-                    console.warn('Quagga not present. Simulating scan...');
-                    setStatus('info', '<i class="fas fa-info-circle"></i><span>Camera not available — simulating scan.</span>');
+                    console.warn('Quagga not available - simulating scan');
+                    setStatus('info', '<i class="fas fa-spinner fa-spin"></i><span>Camera not available - using demo barcode</span>');
+                    
                     setTimeout(() => {
-                        // Simulate scanning common barcodes that exist in Open Food Facts
                         const mockBarcodes = [
-                            '3017620422003', // Ferrero Rocher
-                            '5449000000996', // Coca Cola
-                            '7613034626844', // Nestle Nescafe
-                            '5000159459222', // Walkers Crisps
-                            '8715700162633'  // Food product
+                            '5449000000996',
+                            '3017620422003',
+                            '7613034626844',
+                            '4006381333931',
+                            '8718215984632'
                         ];
-                        const rand = mockBarcodes[Math.floor(Math.random() * mockBarcodes.length)];
-                        window.dispatchEvent(new CustomEvent('barcodeScanned', { detail: { code: rand } }));
-                    }, 900);
+                        const barcode = mockBarcodes[Math.floor(Math.random() * mockBarcodes.length)];
+                        window.dispatchEvent(new CustomEvent('barcodeScanned', { detail: { code: barcode } }));
+                    }, 1500);
                     return;
                 }
 
@@ -1345,27 +1056,39 @@
                             }
                         },
                         decoder: {
-                            readers: ['ean_reader', 'ean_8_reader', 'code_128_reader', 'upc_reader', 'upc_e_reader'],
+                            readers: [
+                                'ean_reader',
+                                'ean_8_reader',
+                                'code_128_reader',
+                                'code_39_reader',
+                                'upc_reader',
+                                'upc_e_reader',
+                                'codabar_reader',
+                                'i2of5_reader'
+                            ],
                             multiple: false
                         },
-                        locate: true
-                    }, function (err) {
+                        locate: true,
+                        frequency: 10,
+                        debug: false
+                    }, (err) => {
                         if (err) {
-                            console.error('Quagga init error', err);
-                            setStatus('error', '<i class="fas fa-exclamation-triangle"></i><span>Unable to start camera. Use manual entry.</span>');
+                            console.error('Quagga init error:', err);
+                            setStatus('error', '<i class="fas fa-exclamation-triangle"></i><span>Camera access denied. Use manual entry or demo mode.</span>');
                             return;
                         }
+
                         Quagga.start();
                         Quagga.onDetected(onDetected);
                         scannerRunning = true;
                         startBtn.style.display = 'none';
                         stopBtn.style.display = 'inline-block';
-                        setScannerText('Scanning... point camera at barcode');
-                        setStatus('info', '<i class="fas fa-camera"></i><span>Scanning... point camera at product barcode.</span>');
+                        setScannerText('Scanning... Point camera at barcode');
+                        setStatus('info', '<i class="fas fa-camera"></i><span>Scanning - point camera at product barcode</span>');
                     });
                 } catch (ex) {
-                    console.error('Quagga start exception', ex);
-                    setStatus('error', '<i class="fas fa-exclamation-triangle"></i><span>Unable to start camera. Use manual entry.</span>');
+                    console.error('Quagga error:', ex);
+                    setStatus('error', '<i class="fas fa-exclamation-triangle"></i><span>Camera error. Try manual entry.</span>');
                 }
             }
 
@@ -1376,24 +1099,25 @@
                     setScannerText('Scanner stopped');
                     return;
                 }
+
                 try {
                     Quagga.offDetected(onDetected);
                     Quagga.stop();
+                    scannerRunning = false;
                 } catch (e) {
                     console.log('Error stopping scanner:', e);
                 }
-                scannerRunning = false;
+
                 startBtn.style.display = 'inline-block';
                 stopBtn.style.display = 'none';
                 setScannerText('Scanner stopped');
                 setStatus('info', '<i class="fas fa-info-circle"></i><span>Scanner stopped</span>');
 
-                // Remove any injected nodes inside previewBox (video/canvas)
                 const injected = previewBox.querySelector('video, canvas');
                 if (injected) injected.remove();
             }
 
-            // Button wiring
+            // Button event listeners
             if (startBtn) startBtn.addEventListener('click', () => {
                 switchToScanMode();
                 startScanner();
@@ -1410,7 +1134,7 @@
                 switchToScanMode();
             });
 
-            // Manual form submit - Save to database
+            // Form submission
             if (manualForm) {
                 manualForm.addEventListener('submit', async (ev) => {
                     ev.preventDefault();
@@ -1433,50 +1157,44 @@
                     };
 
                     if (!productData.name || !productData.category || isNaN(productData.costPrice) || isNaN(productData.sellingPrice) || isNaN(productData.stockQuantity)) {
-                        alert('Please fill required fields correctly.');
+                        alert('Please fill all required fields correctly.');
                         return;
                     }
+
                     if (productData.sellingPrice <= productData.costPrice) {
                         alert('Selling price must be greater than cost price.');
                         return;
                     }
 
-                    // Save product to database
                     try {
                         await saveProductToDatabase(productData);
-                        setStatus('success', '<i class="fas fa-check-circle"></i><span>Product added successfully to database!</span>');
+                        setStatus('success', '<i class="fas fa-check-circle"></i><span>Product added successfully!</span>');
 
                         setTimeout(() => {
                             manualForm.reset();
-                            setStatus('info', '<i class="fas fa-info-circle"></i><span>Select a method above to add another product</span>');
+                            setStatus('info', '<i class="fas fa-info-circle"></i><span>Select a method to add another product</span>');
                             switchToScanMode();
-                        }, 1500);
+                        }, 2000);
                     } catch (error) {
-                        setStatus('error', `<i class="fas fa-exclamation-triangle"></i><span>Error saving product: ${error.message}</span>`);
+                        setStatus('error', `<i class="fas fa-exclamation-triangle"></i><span>Error: ${error.message}</span>`);
                     }
                 });
             }
 
-            // Save product to database (localStorage for demo)
+            // Save to database
             async function saveProductToDatabase(productData) {
                 return new Promise((resolve, reject) => {
                     try {
-                        // Get existing products from localStorage
                         const existingProducts = JSON.parse(localStorage.getItem('products') || '{}');
-
-                        // Generate product ID
                         const productId = 'prod_' + Date.now();
-
-                        // Add product to database
+                        
                         existingProducts[productId] = {
                             id: productId,
                             ...productData
                         };
 
-                        // Save back to localStorage
                         localStorage.setItem('products', JSON.stringify(existingProducts));
-
-                        console.log('Product saved to database:', productData);
+                        console.log('Product saved:', productData);
                         resolve(productId);
                     } catch (error) {
                         reject(error);
@@ -1484,18 +1202,15 @@
                 });
             }
 
-            // Initial UI state
+            // Initial state
             const activeCard = document.querySelector('.mode-card.active');
             if (activeCard?.getAttribute('data-mode') === 'scan') {
                 showScanner(true);
-                setStatus('info', '<i class="fas fa-info-circle"></i><span>Ready to scan barcodes. Click Start Scanner.</span>');
-            }
-            else {
+                setStatus('info', '<i class="fas fa-info-circle"></i><span>Ready to scan. Click Start Scanner.</span>');
+            } else {
                 showManual(true);
-                setStatus('info', '<i class="fas fa-edit"></i><span>Enter product information manually below.</span>');
             }
 
-            // Cleanup on unload
             window.addEventListener('beforeunload', () => {
                 if (scannerRunning) stopScanner();
             });
